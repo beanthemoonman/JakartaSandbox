@@ -3,8 +3,6 @@ package io.beanthemoonman.moonservice.api;
 import io.beanthemoonman.moonservice.integrations.IfConfig;
 import io.beanthemoonman.moonservice.integrations.IpApi;
 import io.beanthemoonman.moonservice.integrations.OpenMeteo;
-import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -16,6 +14,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import static java.lang.StringTemplate.STR;
+
 @Path("/moon")
 public class MoonResource extends AbstractResource {
 
@@ -25,7 +25,7 @@ public class MoonResource extends AbstractResource {
   public Response time(
       @QueryParam("zone") String zone
   ) {
-    return Response.ok(getTime(zone)).build();
+    return Response.ok(getTime(zone.isEmpty() ? "UTC" : zone)).build();
   }
 
   @GET
@@ -40,15 +40,8 @@ public class MoonResource extends AbstractResource {
       var ipData = IpApi.getIpGeoData(ipAddress);
       var weatherData = OpenMeteo.getWeatherData(ipData.lat(), ipData.lon());
       return Response.ok(
-          "It is currently " +
-          weatherData.current_weather().temperature() +
-          "° Celsius in " +
-          ipData.city() +
-          ", " +
-          ipData.regionName() +
-          ". The time is " +
-          getTime(ipData.timezone()) +
-          "."
+          STR."It is currently \{weatherData.current_weather().temperature()}° Celsius in, \{ipData.city()}" +
+          STR.", \{ipData.regionName()}. The time is \{getTime(ipData.timezone())}."
       ).build();
     } catch (Exception e) {
       throw new RuntimeException(e);
