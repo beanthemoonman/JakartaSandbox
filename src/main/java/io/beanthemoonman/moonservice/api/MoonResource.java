@@ -19,9 +19,6 @@ import java.time.format.DateTimeFormatter;
 @Path("/moon")
 public class MoonResource extends AbstractResource {
 
-  @Inject
-  private HttpServletRequest request;
-
   @GET
   @Path("/time")
   @Produces(MediaType.TEXT_PLAIN)
@@ -44,14 +41,14 @@ public class MoonResource extends AbstractResource {
       var weatherData = OpenMeteo.getWeatherData(ipData.lat(), ipData.lon());
       return Response.ok(
           "It is currently " +
-            weatherData.current_weather().temperature() +
-            "° Celsius in " +
-            ipData.city() +
-            ", " +
-            ipData.regionName() +
-            ". The time is " +
-            getTime(ipData.timezone()) +
-            "."
+          weatherData.current_weather().temperature() +
+          "° Celsius in " +
+          ipData.city() +
+          ", " +
+          ipData.regionName() +
+          ". The time is " +
+          getTime(ipData.timezone()) +
+          "."
       ).build();
     } catch (Exception e) {
       throw new RuntimeException(e);

@@ -1,8 +1,12 @@
 package io.beanthemoonman.moonservice.api;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 public abstract class AbstractResource {
+
+  @Inject
+  protected HttpServletRequest request;
 
   private static final String[] IP_HEADERS = {
       "X-Forwarded-For",
