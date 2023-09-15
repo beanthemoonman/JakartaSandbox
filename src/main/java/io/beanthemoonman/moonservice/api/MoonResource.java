@@ -44,14 +44,14 @@ public class MoonResource extends AbstractResource {
       var weatherData = OpenMeteo.getWeatherData(ipData.lat(), ipData.lon());
       return Response.ok(
           "It is currently " +
-              weatherData.current_weather().temperature() +
-              "° Celsius in " +
-              ipData.city() +
-              ", " +
-              ipData.regionName() +
-              ". The time is " +
-              getTime(ipData.timezone()) +
-              "."
+            weatherData.current_weather().temperature() +
+            "° Celsius in " +
+            ipData.city() +
+            ", " +
+            ipData.regionName() +
+            ". The time is " +
+            getTime(ipData.timezone()) +
+            "."
       ).build();
     } catch (Exception e) {
       throw new RuntimeException(e);
