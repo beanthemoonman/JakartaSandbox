@@ -1,6 +1,7 @@
 package io.beanthemoonman.moonservice;
 
-import io.beanthemoonman.moonservice.api.MoonResource;
+import io.beanthemoonman.moonservice.api.MoonV1Resource;
+import io.beanthemoonman.moonservice.api.MoonV2Resource;
 import io.beanthemoonman.moonservice.api.mappers.GenericExceptionMapper;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
@@ -15,7 +16,8 @@ public class MoonApplication extends Application {
   public Set<Class<?>> getClasses() {
     return Sets.newHashSet(
         //apis
-        MoonResource.class,
+        MoonV1Resource.class,
+        MoonV2Resource.class,
 
         //mappers
         GenericExceptionMapper.class

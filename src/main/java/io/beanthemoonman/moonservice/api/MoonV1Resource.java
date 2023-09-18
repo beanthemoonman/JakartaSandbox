@@ -16,8 +16,8 @@ import java.time.format.DateTimeFormatter;
 
 import static java.lang.StringTemplate.STR;
 
-@Path("/moon")
-public class MoonResource extends AbstractResource {
+@Path("/v1")
+public class MoonV1Resource extends AbstractResource {
 
   @GET
   @Path("/time")
