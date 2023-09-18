@@ -1,4 +1,4 @@
-package io.beanthemoonman.moonservice.api.mappers;
+package io.beanthemoonman.moonservice.api.model;
 
 public record ExceptionResponse(
     String name,

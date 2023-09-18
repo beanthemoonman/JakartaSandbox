@@ -1,5 +1,6 @@
 package io.beanthemoonman.moonservice.api.mappers;
 
+import io.beanthemoonman.moonservice.api.model.ExceptionResponse;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;

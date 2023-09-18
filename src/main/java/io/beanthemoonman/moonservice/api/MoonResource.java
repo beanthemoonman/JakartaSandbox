@@ -25,7 +25,9 @@ public class MoonResource extends AbstractResource {
   public Response time(
       @QueryParam("zone") String zone
   ) {
-    return Response.ok(getTime(zone.isEmpty() ? "UTC" : zone)).build();
+    return Response.ok(
+        getTime(!ZoneId.getAvailableZoneIds().contains(zone) ? "UTC" : zone)
+    ).build();
   }
 
   @GET

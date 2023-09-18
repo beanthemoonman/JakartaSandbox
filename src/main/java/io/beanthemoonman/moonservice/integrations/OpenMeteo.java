@@ -11,12 +11,7 @@ public class OpenMeteo extends Integration {
 
   public static OpenMeteoResponse getWeatherData(Double lat, Double lon) throws IOException {
     return new Gson().fromJson(makeSimpleGetRequest(
-        API_URL +
-        "v1/forecast?latitude=" +
-        lat.toString() +
-        "&longitude=" +
-        lon.toString() +
-        "&current_weather=true"
+        STR."\{API_URL}v1/forecast?latitude=\{lat.toString()}&longitude=\{lon.toString()}&current_weather=true"
     ), OpenMeteoResponse.class);
   }
 }
