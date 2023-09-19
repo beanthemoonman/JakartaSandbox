@@ -23,7 +23,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
         new ExceptionResponse(
             exception.getClass().getName(),
             exception.getMessage().isEmpty() ? "No message" : exception.getMessage(),
-            getStackTrace(exception.getCause().getStackTrace())
+            exception.getCause() != null ? getStackTrace(exception.getCause().getStackTrace()) : ""
         )
     ).build();
   }
