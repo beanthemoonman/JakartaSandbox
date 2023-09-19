@@ -1,6 +1,7 @@
 package io.beanthemoonman.moonservice.api;
 
 import io.beanthemoonman.moonservice.api.model.CreatePersonRequest;
+import io.beanthemoonman.moonservice.persistence.EntityHelper;
 import io.beanthemoonman.moonservice.persistence.entities.People;
 import io.beanthemoonman.moonservice.api.model.DataModificationResponse;
 import jakarta.annotation.Resource;
@@ -21,14 +22,11 @@ import java.util.logging.Logger;
 @Path("/v2")
 public class MoonV2Resource extends MoonV1Resource{
 
-  @PersistenceContext
-  EntityManager entityManager;
-
-  @Resource
-  UserTransaction userTransaction;
-
   @Inject
   Logger logger;
+
+  @Inject
+  EntityHelper entityHelper;
 
   @Override
   public Response time(String zone) {
@@ -41,19 +39,11 @@ public class MoonV2Resource extends MoonV1Resource{
   public Response createPerson(CreatePersonRequest createPersonRequest) {
     try {
       var person = new People(createPersonRequest.firstName(), createPersonRequest.lastName());
-      userTransaction.begin();
-      entityManager.persist(person);
-      entityManager.flush();
-      userTransaction.commit();
+      entityHelper.commitEntity(person);
       return Response.ok(
           DataModificationResponse.createSuccess()
       ).build();
     } catch (Exception e) {
-      try {
-        userTransaction.rollback();
-      } catch (SystemException se) {
-        logger.log(Level.SEVERE, se.getMessage());
-      }
       logger.log(Level.SEVERE, e.getMessage());
       throw new RuntimeException(e);
     }

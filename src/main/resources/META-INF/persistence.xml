@@ -7,7 +7,10 @@
 
         <class>io.beanthemoonman.moonservice.persistence.entities.People</class>
         <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/MoonService"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="USERNAME"/>
+            <property name="hibernate.connection.password" value="PASSWORD"/>
         </properties>
     </persistence-unit>
 </persistence>
