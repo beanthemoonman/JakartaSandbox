@@ -7,13 +7,13 @@ public record DataModificationResponse(
 
   public static DataModificationResponse createSuccess() {
     return new DataModificationResponse(
-        "Success", Boolean.TRUE
+        "Success", Boolean.FALSE
     );
   }
 
   public static DataModificationResponse createFailure(String message) {
     return new DataModificationResponse(
-        message, Boolean.FALSE
+        message, Boolean.TRUE
     );
   }
 }

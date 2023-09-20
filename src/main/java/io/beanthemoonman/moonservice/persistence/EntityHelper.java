@@ -1,19 +1,21 @@
 package io.beanthemoonman.moonservice.persistence;
 
-import io.beanthemoonman.moonservice.api.model.DataModificationResponse;
-import io.beanthemoonman.moonservice.persistence.entities.People;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.*;
+import org.hibernate.Session;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RequestScoped
 public class EntityHelper {
+
+  static Integer MAX_PAGE_SIZE = 100;
 
   @Inject
   Logger logger;
@@ -41,5 +43,18 @@ public class EntityHelper {
       logger.log(Level.SEVERE, e.getMessage());
       throw e;
     }
+  }
+
+  public <T> List<T> queryEntity(Class<T> entity, String query, String column, Integer start, Integer count) {
+    var gateKeptCount = count > MAX_PAGE_SIZE ? MAX_PAGE_SIZE : count;
+    var session = entityManager.unwrap(Session.class);
+    var cb = session.getCriteriaBuilder();
+    var cr = cb.createQuery(entity);
+    var root = cr.from(entity);
+    cr.select(root).where(cb.like(root.get(column), STR."%\{query}%"));
+    var hibernateQuery = session.createQuery(cr)
+        .setFetchSize(gateKeptCount)
+        .setFirstResult(start);
+    return hibernateQuery.getResultList();
   }
 }

@@ -6,14 +6,19 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GenericExceptionMapper implements ExceptionMapper<Exception> {
 
-  private String getStackTrace(StackTraceElement[] trace) {
-    var ret = new StringBuilder();
+  private List<String> getStackTrace(StackTraceElement[] trace) {
+    var ret = new ArrayList<String>();
     for (var line : trace) {
-      ret.append(line.getClassName()).append(" Line: ").append(line.getLineNumber()).append("\n");
+      ret.add(
+          STR."\{line.getClassName()}, (\{line.getMethodName()}) Line:\{line.getLineNumber()}"
+      );
     }
-    return ret.toString();
+    return ret;
   }
 
   @Override
@@ -23,7 +28,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
         new ExceptionResponse(
             exception.getClass().getName(),
             exception.getMessage().isEmpty() ? "No message" : exception.getMessage(),
-            exception.getCause() != null ? getStackTrace(exception.getCause().getStackTrace()) : ""
+            exception.getCause() != null ? getStackTrace(exception.getCause().getStackTrace()) : List.of("")
         )
     ).build();
   }
