@@ -1,7 +1,7 @@
 package io.beanthemoonman.moonservice.api.model;
 
 public record getPeopleRequest(
-    String query,
+    Object query,
     String column,
     Integer start,
     Integer count
