@@ -5,7 +5,7 @@ import io.beanthemoonman.moonservice.integrations.model.OpenMeteoResponse;
 
 import java.io.IOException;
 
-public class OpenMeteo extends Integration {
+public class OpenMeteo extends AbstractIntegration {
 
   private static final String API_URL = "https://api.open-meteo.com/";
 

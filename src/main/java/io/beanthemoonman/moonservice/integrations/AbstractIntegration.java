@@ -2,11 +2,10 @@ package io.beanthemoonman.moonservice.integrations;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 import java.io.IOException;
 
-public abstract class Integration {
+public abstract class AbstractIntegration {
 
   protected static String makeSimpleGetRequest(String URL) throws IOException {
     var client = new OkHttpClient();

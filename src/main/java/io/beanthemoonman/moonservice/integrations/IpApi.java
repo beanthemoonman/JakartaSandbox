@@ -5,7 +5,7 @@ import io.beanthemoonman.moonservice.integrations.model.IpApiResponse;
 
 import java.io.IOException;
 
-public class IpApi extends Integration {
+public class IpApi extends AbstractIntegration {
 
   private static final String API_URL = "http://ip-api.com/";
 

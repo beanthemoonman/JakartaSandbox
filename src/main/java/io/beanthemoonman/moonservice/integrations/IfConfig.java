@@ -2,7 +2,7 @@ package io.beanthemoonman.moonservice.integrations;
 
 import java.io.IOException;
 
-public class IfConfig extends Integration {
+public class IfConfig extends AbstractIntegration {
 
   private static final String API_URL = "https://ifconfig.io/";
 

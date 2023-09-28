@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
+//Once in every database,
 @Entity
 public class ThereGoesATableLikeThis {
 

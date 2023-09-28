@@ -25,6 +25,9 @@ import static io.beanthemoonman.moonservice.persistence.model.OrderSort.DESC;
 @RequestScoped
 public class EntityHelper {
 
+  /**
+   * MAX_PAGE_SIZE determines the maximum count for all queries
+   */
   static Integer MAX_PAGE_SIZE = 100;
 
   @Inject
@@ -36,6 +39,11 @@ public class EntityHelper {
   @Resource
   UserTransaction userTransaction;
 
+  /**
+   * Overly simple entity committing method.
+   * @param entity
+   * Entity to commit
+   */
   public void commitEntity(Object entity)
       throws HeuristicRollbackException, SystemException, HeuristicMixedException, NotSupportedException,
       RollbackException {
@@ -55,6 +63,21 @@ public class EntityHelper {
     }
   }
 
+  /**
+   * Simple entity query tool built for full table view lookups
+   * @param entity
+   * Class of entity. Determines template type.
+   * @param filterWrappers
+   * Filters to apply to Where clause in query
+   * @param orderWrappers
+   * Order by directives to apply to order by clause in query
+   * @param start
+   * Query start
+   * @param count
+   * Max rows returned
+   * @return
+   * Returns list of run Query
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public <T> List<T> queryEntity(Class<T> entity, List<FilterWrapper> filterWrappers, List<OrderWrapper> orderWrappers,
       Integer start, Integer count) {
@@ -79,10 +102,10 @@ public class EntityHelper {
       });
     }
     var orders = new ArrayList<Order>();
-    for (var order : orderWrappers) {
-      orders.add(
-        order.orderSort() == DESC ? cb.desc(root.get(order.column())) : cb.asc(root.get(order.column()))
-      );
+    if(orderWrappers != null) {
+      for (var order : orderWrappers) {
+        orders.add(order.orderSort() == DESC ? cb.desc(root.get(order.column())) : cb.asc(root.get(order.column())));
+      }
     }
     cr.select(root)
         .where(predicates.toArray(new JpaPredicate[0]))
